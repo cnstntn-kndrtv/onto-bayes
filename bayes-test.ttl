@@ -1,0 +1,48 @@
+@PREFIX dc <http://purl.org/dc/elements/1.1/#> .
+@PREFIX bayes <??????#> .
+
+# корень дерева
+:0 
+    a bayes:Root
+    bayes:childNodeCount 1
+    bayes:leafCount 1
+    :e-0-1 :1        # этот элемент связан предикатом :е-0-1 с объектом :1
+
+# первый элемент последовательности
+:1 
+    a bayes:Fork
+    bayes:forkType bayes:letter   # По идее тип letter может быть только у последовательности типа sequenceOfLetters (см ниже) и если в онтологии однотипное дерево, указывать здесь тип дополнительно нет смысла. Но я решил указать. Давайте обсудим.
+    bayes:childNodeCount 1
+    bayes:leafCount 1
+    bayes:index 1
+    bayes:value 'a'@ru
+    bayes:partOfSequence :w1
+    :e-1-x :x
+
+:X 
+    a bayes:Leaf
+    bayes:index 2
+    bayes:partOfSequence :w1
+
+:e-0-1 
+  a bayes:Edge
+  bayes:subject :0
+  bayes:object :1
+  bayes:edgeWeight 1   # вес в данном случае 100%
+  bayes:partOfSequence :w1
+
+:e-1-x 
+  a bayes:Edge
+  bayes:subject :1
+  bayes:object :x
+  bayes:edgeWeight 1
+  bayes:partOfSequence :w1
+
+:w1 
+  a bayes:Sequence
+  bayes:sequenceType bayes:sequenceOfLetters
+  bayes:sequenceValue 'a'@ru
+  ontolex:writtenRep 'a'@ru
+  dc:links orgf:something, orgf:something2 .
+  bayes:sequenceParts :0, :1, :x, :e-0-1, :e-1-x ;
+  bayes:endOfSequence :x .
